@@ -16,8 +16,15 @@ vector<GLfloat> Curva::GerarCurva()
 
 	vector<GLfloat> curve;
 	GLfloat x, y;
+	GLfloat* BLEPX;
+	BLEPX = new GLfloat[Control_Points_X.size()];
+	BLEPX = Control_Points_X.data();
 
-	for (int i = 0; i < Control_Points_X.size()/4; i++)
+	GLfloat* BLEPY;
+	BLEPY = new GLfloat[Control_Points_Y.size()];
+	BLEPY = Control_Points_Y.data();
+
+	for (int i = 0; i < Control_Points_X.size()/3; i++)
 	{
 		for (float t = 0; t <= 1; t += inc) {
 			x = (((-1 * pow(t, 3) + 3 * pow(t, 2) - 3 * t + 1) * Control_Points_X[i] +
