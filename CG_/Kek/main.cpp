@@ -16,6 +16,8 @@
 
 #include "Mesh.h"
 
+#include "Curva.h"
+
 #define M_PI   3.14159265358979323846264338327950288
 
 #define degreesToRadians(angleDegrees) (angleDegrees * M_PI / 180.0)
@@ -32,13 +34,9 @@ float camZ = cos(glfwGetTime()) * 10;
 
 glm::vec3 eye = glm::vec3(camX, 0.0, camZ);
 
-
-
-
-
-
-
 using namespace std;
+
+Curva curva;
 
 void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
@@ -122,6 +120,7 @@ void CameraMovement(GLFWwindow * window, glm::mat4 &view)
 
 	
 }
+
 void ObjTransform(GLFWwindow * window, glm::mat4 &ModelMatrix,float &scale,bool &scalebool5,bool &scalebool6)
 {
 	ModelMatrix = glm::rotate(ModelMatrix, glm::radians(rotationX), glm::vec3(1.f, 0.f, 0.f));
@@ -191,7 +190,6 @@ void IniciateMesh(Mesh &m) {
 	
 	int ngroup;
 
-
 	ngroup = m.NGps;
 
 	for (int i = 0; i < ngroup; i++)
@@ -243,30 +241,61 @@ void IniciateMesh(Mesh &m) {
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
+		
+
 	}
 
 	
 }
 
-
-
-static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
-{
-	
-	
-}
-
 bool teste = false;
+bool testec = false;
 
 GLuint vao;
 
+vector<GLfloat> Points_C;
+
+int n_max; 
+
+void CreateCurve() 
+{
+	glGenVertexArrays(1, &curva.VAO);
+	glBindVertexArray(curva.VAO);
+
+	glGenBuffers(1, &curva.VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, curva.VBO);
+	glBufferData(GL_ARRAY_BUFFER, curva.GerarCurva().size() * sizeof(GLfloat), curva.GerarCurva().data(), GL_STATIC_DRAW);
+	n_max = curva.GerarCurva().size()/2;
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+
+	testec = true;
+}
+
+
 void create_point(double xpos, double ypos)
 {
-	GLfloat *point;
-	point = new GLfloat[2];
+	
 
-	point[0] = xpos;
-	point[1] = ypos;
+	
+
+	Points_C.push_back(xpos);
+	Points_C.push_back(ypos);
+
+	curva.Control_Points_X.push_back(xpos);
+	curva.Control_Points_Y.push_back(ypos);
+
+
+	if (Points_C.size() >= 8)
+	{
+		
+			CreateCurve();
+
+		
+		
+		//cout << Points_C[4];
+	}
+	
 
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
@@ -275,10 +304,10 @@ void create_point(double xpos, double ypos)
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, 2 * sizeof(GLfloat), point, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, Points_C.size() * sizeof(GLfloat), Points_C.data(), GL_STATIC_DRAW);
+	//glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+	glVertexAttribPointer(0,2, GL_FLOAT, GL_FALSE, 0, NULL);
 }
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
@@ -287,26 +316,15 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	{
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
-		
 
-
-
-		cout << " x: " << xpos << " y: " << ypos << "\n";
-
-		/*if (xpos != 0)
-		{
-			xpos = (xpos / 800)*2 -1;
-		}
-		if (ypos != 0)
-		{
-			ypos = (ypos / 600) * 2 - 1;
-		}*/
-
-		cout << " x: " << xpos << " y: " << ypos << "\n";
+		cout << " x: " << xpos << " y: " << ypos << "\n";		
 		
 		ypos *= -1;
 		ypos += 600;
+		
 		create_point(xpos, ypos);
+		
+		//add point to curve
 
 		teste = true;
 	}
@@ -319,6 +337,8 @@ int main() {
 	GLFWwindow* window = NULL;
 	const GLubyte* renderer;
 	const GLubyte* version;
+
+	
 	
 
 	GLfloat colors[] = {
@@ -448,7 +468,7 @@ int main() {
 	glUseProgram(shader_programme);
 
 	glfwSetKeyCallback(window, keyCallback);
-	glfwSetCursorPosCallback(window, cursor_position_callback);
+	
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, 1);
 
@@ -485,14 +505,21 @@ int main() {
 		glDrawArrays(GL_LINE_LOOP, 0, 3);
 		
 		if (teste)
-		{
+		{		
+			
 			glBindVertexArray(vao);
-			glPointSize(50);
-			glDrawArrays(GL_POINTS,0,1);
+			glPointSize(5);
+			glDrawArrays(GL_POINTS, 0, Points_C.size()/2);
+			
 		}
 		
 		
-		
+		if (testec)
+		{
+			glBindVertexArray(curva.VAO);
+			glPointSize(1);
+			glDrawArrays(GL_LINE_STRIP, 0, n_max*2);
+		}
 		
 		
 
