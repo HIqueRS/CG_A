@@ -24,17 +24,17 @@ vector<GLfloat> Curva::GerarCurva()
 	BLEPY = new GLfloat[Control_Points_Y.size()];
 	BLEPY = Control_Points_Y.data();
 
-	for (int i = 0; i < Control_Points_X.size()/3; i++)
+	for (int i = 0; i < Control_Points_X.size(); i++)
 	{
 		for (float t = 0; t <= 1; t += inc) {
-			x = (((-1 * pow(t, 3) + 3 * pow(t, 2) - 3 * t + 1) * Control_Points_X[i] +
-				(3 * pow(t, 3) - 6 * pow(t, 2) + 0 * t + 4) * Control_Points_X[i + 1] +
-				(-3 * pow(t, 3) + 3 * pow(t, 2) + 3 * t + 1) * Control_Points_X[i + 2] +
-				(1 * pow(t, 3) + 0 * pow(t, 2) + 0 * t + 0) * Control_Points_X[i + 3]) / 6);
-			y = (((-1 * pow(t, 3) + 3 * pow(t, 2) - 3 * t + 1) * Control_Points_Y[i] +
-				(3 * pow(t, 3) - 6 * pow(t, 2) + 0 * t + 4) * Control_Points_Y[i + 1] +
-				(-3 * pow(t, 3) + 3 * pow(t, 2) + 3 * t + 1) * Control_Points_Y[i + 2] +
-				(1 * pow(t, 3) + 0 * pow(t, 2) + 0 * t + 0) * Control_Points_Y[i + 3]) / 6);
+			x = (((-1 * pow(t, 3) + 3 * pow(t, 2) - 3 * t + 1) * BLEPX[i] +
+				(3 * pow(t, 3) - 6 * pow(t, 2) + 0 * t + 4) * BLEPX[i + 1] +
+				(-3 * pow(t, 3) + 3 * pow(t, 2) + 3 * t + 1) * BLEPX[i + 2] +
+				(1 * pow(t, 3) + 0 * pow(t, 2) + 0 * t + 0) * BLEPX[i + 3]) / 6);
+			y = (((-1 * pow(t, 3) + 3 * pow(t, 2) - 3 * t + 1) * BLEPY[i] +
+				(3 * pow(t, 3) - 6 * pow(t, 2) + 0 * t + 4) * BLEPY[i + 1] +
+				(-3 * pow(t, 3) + 3 * pow(t, 2) + 3 * t + 1) * BLEPY[i + 2] +
+				(1 * pow(t, 3) + 0 * pow(t, 2) + 0 * t + 0) * BLEPY[i + 3]) / 6);
 
 			curve.push_back(x);
 			curve.push_back(y);

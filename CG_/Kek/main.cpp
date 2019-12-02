@@ -518,7 +518,7 @@ int main() {
 		{
 			glBindVertexArray(curva.VAO);
 			glPointSize(1);
-			glDrawArrays(GL_LINE_STRIP, 0, n_max*2);
+			glDrawArrays(GL_LINE_STRIP, 0, n_max);
 		}
 		
 		
