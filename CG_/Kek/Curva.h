@@ -13,8 +13,10 @@
 #include <sstream>
 #include <time.h>
 #include <vector>
+#include <glm/vec2.hpp>
 
 using namespace std;
+#define PI 3.14159265
 
 class Curva
 {
@@ -24,15 +26,15 @@ public:
 	~Curva();
 
 	vector<GLfloat> GerarCurva();
-	vector<GLfloat> GerarCurvaInterna();
-	vector<GLfloat> GerarCurvaExterna();
+	vector<GLfloat> GerarCurvaInterna(vector<GLfloat> Cur, bool q);
+	vector<GLfloat> GerarCurvaExterna(vector<GLfloat> Cur);
 
 
-	GLuint VAO, VBO;
+	GLuint VAO, VBO,VAOI,VAOE,VBOI,VBOE;
 	vector<GLfloat> Control_Points_X;
 	vector<GLfloat> Control_Points_Y;
 
-	float inc = 0.2f;
+	float inc = 0.3f;
 
 	
 	

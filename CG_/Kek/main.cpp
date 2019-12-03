@@ -262,12 +262,46 @@ void CreateCurve()
 	glGenVertexArrays(1, &curva.VAO);
 	glBindVertexArray(curva.VAO);
 
+	vector<GLfloat> cur;
+	cur = curva.GerarCurva();
+
 	glGenBuffers(1, &curva.VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, curva.VBO);
-	glBufferData(GL_ARRAY_BUFFER, curva.GerarCurva().size() * sizeof(GLfloat), curva.GerarCurva().data(), GL_STATIC_DRAW);
-	n_max = curva.GerarCurva().size()/2;
+	glBufferData(GL_ARRAY_BUFFER, cur.size() * sizeof(GLfloat), cur.data(), GL_STATIC_DRAW);
+	n_max = cur.size()/2;
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+
+	////
+
+	glGenVertexArrays(1, &curva.VAOI);
+	glBindVertexArray(curva.VAOI);
+
+	vector<GLfloat> cur_i;
+	cur_i = curva.GerarCurvaInterna(cur,true);
+
+	glGenBuffers(1, &curva.VBOI);
+	glBindBuffer(GL_ARRAY_BUFFER, curva.VBOI);
+	glBufferData(GL_ARRAY_BUFFER, cur_i.size() * sizeof(GLfloat), cur_i.data(), GL_STATIC_DRAW);
+	n_max = cur_i.size() / 2;
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+
+	////
+
+	glGenVertexArrays(1, &curva.VAOE);
+	glBindVertexArray(curva.VAOE);
+
+	vector<GLfloat> cur_E;
+	cur_E = curva.GerarCurvaInterna(cur,false);
+
+	glGenBuffers(1, &curva.VBOE);
+	glBindBuffer(GL_ARRAY_BUFFER, curva.VBOE);
+	glBufferData(GL_ARRAY_BUFFER, cur_E.size() * sizeof(GLfloat), cur_E.data(), GL_STATIC_DRAW);
+	n_max = cur_E.size() / 2;
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+
 
 	testec = true;
 }
@@ -286,15 +320,7 @@ void create_point(double xpos, double ypos)
 	curva.Control_Points_Y.push_back(ypos);
 
 
-	if (Points_C.size() >= 8)
-	{
-		
-			CreateCurve();
-
-		
-		
-		//cout << Points_C[4];
-	}
+	
 	
 
 	glGenVertexArrays(1, &vao);
@@ -308,6 +334,19 @@ void create_point(double xpos, double ypos)
 	//glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0,2, GL_FLOAT, GL_FALSE, 0, NULL);
+
+	
+
+	if (Points_C.size() >= 10)
+	{
+
+		CreateCurve();
+
+
+
+		//cout << Points_C[4];
+	}
+	
 }
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
@@ -508,7 +547,7 @@ int main() {
 		{		
 			
 			glBindVertexArray(vao);
-			glPointSize(5);
+			glPointSize(7);
 			glDrawArrays(GL_POINTS, 0, Points_C.size()/2);
 			
 		}
@@ -518,7 +557,15 @@ int main() {
 		{
 			glBindVertexArray(curva.VAO);
 			glPointSize(1);
-			glDrawArrays(GL_LINE_STRIP, 0, n_max);
+			glDrawArrays(GL_LINE_LOOP, 0, n_max);
+
+			glBindVertexArray(curva.VAOI);
+			glPointSize(1);
+			glDrawArrays(GL_LINE_LOOP, 0, n_max);
+
+			glBindVertexArray(curva.VAOE);
+			glPointSize(1);
+			glDrawArrays(GL_LINE_LOOP, 0, n_max);
 		}
 		
 		
