@@ -63,6 +63,9 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods
 		case GLFW_KEY_LEFT:
 			rotationY += rotationSpeed;
 			break;
+		case GLFW_KEY_O:
+			curva.CreateObj();
+			break;
 		}
 
 
@@ -279,6 +282,7 @@ void CreateCurve()
 
 	vector<GLfloat> cur_i;
 	cur_i = curva.GerarCurvaInterna(cur,true);
+	curva.CurvaI = cur_i;
 
 	glGenBuffers(1, &curva.VBOI);
 	glBindBuffer(GL_ARRAY_BUFFER, curva.VBOI);
@@ -294,6 +298,7 @@ void CreateCurve()
 
 	vector<GLfloat> cur_E;
 	cur_E = curva.GerarCurvaInterna(cur,false);
+	curva.CurvaE = cur_E;
 
 	glGenBuffers(1, &curva.VBOE);
 	glBindBuffer(GL_ARRAY_BUFFER, curva.VBOE);
@@ -337,7 +342,7 @@ void create_point(double xpos, double ypos)
 
 	
 
-	if (Points_C.size() >= 10)
+	if (Points_C.size() >= 8)
 	{
 
 		CreateCurve();
@@ -547,7 +552,7 @@ int main() {
 		{		
 			
 			glBindVertexArray(vao);
-			glPointSize(7);
+			glPointSize(5);
 			glDrawArrays(GL_POINTS, 0, Points_C.size()/2);
 			
 		}
@@ -556,15 +561,15 @@ int main() {
 		if (testec)
 		{
 			glBindVertexArray(curva.VAO);
-			glPointSize(1);
+			glPointSize(3);
 			glDrawArrays(GL_LINE_LOOP, 0, n_max);
 
 			glBindVertexArray(curva.VAOI);
-			glPointSize(1);
+			glPointSize(3);
 			glDrawArrays(GL_LINE_LOOP, 0, n_max);
 
 			glBindVertexArray(curva.VAOE);
-			glPointSize(1);
+			glPointSize(3);
 			glDrawArrays(GL_LINE_LOOP, 0, n_max);
 		}
 		

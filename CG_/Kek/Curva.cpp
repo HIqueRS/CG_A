@@ -169,3 +169,33 @@ vector<GLfloat> Curva::GerarCurvaExterna(vector<GLfloat> Cur)
 {
 	return vector<GLfloat>();
 }
+
+void Curva::CreateObj()
+{
+	ArqObj.open("pista.obj");
+	ArqObj.clear();
+	ArqObj << "#teste" << endl;
+	ArqObj << "mtllib Grass_Block.mtl" << endl;
+	for (int i = 0; i < CurvaE.size() ; i+=2)
+	{
+		ArqObj << "v " << CurvaI[i] << " " << "1.0" << " " << CurvaI[i+1] << endl;
+	}
+	for (int i = 0; i < CurvaE.size() ; i+=2)
+	{
+		ArqObj << "v " << CurvaE[i] << " " << "1.0" << " " << CurvaE[i+1] << endl;
+	}
+	ArqObj << "g group" << endl;
+	ArqObj << "usemtl Grass_Block_TEX" << endl;
+
+	for (int i = 1; i < CurvaE.size()/2 ; i++)
+	{
+		ArqObj << "f " << i  << "/1/1 " << i + 1 << "/1/1 " << CurvaE.size()/2 + i  <<"/1/1" << endl;
+		ArqObj << "f " << CurvaE.size()/2 + i  << "/1/1 " << CurvaE.size()/2 + i + 1  <<"/1/1 "<<i + 1  <<"/1/1"<< endl;
+	}
+
+		ArqObj << "f " << CurvaE.size() / 2 << "/1/1 " << 1 << "/1/1 " << CurvaE.size() <<"/1/1" << endl;
+		ArqObj << "f " << CurvaE.size()   << "/1/1 " << CurvaE.size()/2 +  1  <<"/1/1 "<< 1  <<"/1/1"<< endl;
+
+
+	ArqObj.close();
+}

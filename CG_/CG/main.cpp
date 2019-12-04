@@ -26,9 +26,9 @@ GLfloat rotationY = 0.0f;
 GLfloat  Cam_rotx = 0.0f;
 GLfloat Cam_PosZ = 3.0f;
 
-glm::vec3  center = glm::vec3(0.0f, 0.0f, 0.0f) , up = glm::vec3(0.0f, 1.0f, 0.0f) , camF = glm::vec3(0.0f, 0.0f, -1.0f);
-float camX = sin(glfwGetTime()) * 10;
-float camZ = cos(glfwGetTime()) * 10;
+glm::vec3  center = glm::vec3(200.0f, 0.0f, 200.0f) , up = glm::vec3(0.0f, 1.0f, 0.0f) , camF = glm::vec3(0.0f, 0.0f, -1.0f);
+float camX = sin(glfwGetTime()) * 100;
+float camZ = cos(glfwGetTime()) * 100;
 
 glm::vec3 eye = glm::vec3(camX, 0.0, camZ);
 
@@ -293,9 +293,9 @@ int main() {
 	{
 
 	}*/
-	New_mesh[0] = Reader.Read("LibertStatue.obj");
+	New_mesh[0] = Reader.Read("pista.obj");
 	//New_mesh[1] = Reader.Read("Cubo2.txt");//LibertStatue.obj
-	//New_mesh[0] = IniciateMesh(New_mesh[0]);
+	//New_mesh[0] = IniciateMesh(New_mesh[0]);//pista.txt
 
 
 	
@@ -507,8 +507,8 @@ int main() {
 		rotationY = 0;
 
 		glUniformMatrix4fv(matrixLocation, 1, GL_FALSE, glm::value_ptr(ModelMatrix));
-		//Proj = glm::perspective(glm::radians(45.0f), (float)640 / (float)480, 0.1f, 100.0f);
-		Proj = glm::ortho(-1, 1, -1, 1, -1, 100);
+		Proj = glm::perspective(glm::radians(45.0f), (float)640 / (float)480, 0.1f, 10000.0f);
+		//Proj = glm::ortho(-1, 1, -1, 1, -1, 100);
 		
 		
 		glUniformMatrix4fv(matrixLocation_1, 1, GL_FALSE, glm::value_ptr(Proj));

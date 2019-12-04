@@ -29,12 +29,19 @@ public:
 	vector<GLfloat> GerarCurvaInterna(vector<GLfloat> Cur, bool q);
 	vector<GLfloat> GerarCurvaExterna(vector<GLfloat> Cur);
 
+	void CreateObj();
+
+	ofstream ArqObj;
+
 
 	GLuint VAO, VBO,VAOI,VAOE,VBOI,VBOE;
 	vector<GLfloat> Control_Points_X;
 	vector<GLfloat> Control_Points_Y;
 
-	float inc = 0.3f;
+	vector<GLfloat> CurvaI;
+	vector<GLfloat> CurvaE;
+
+	float inc = 0.4f;
 
 	
 	
