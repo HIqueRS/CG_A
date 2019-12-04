@@ -172,7 +172,7 @@ vector<GLfloat> Curva::GerarCurvaExterna(vector<GLfloat> Cur)
 
 void Curva::CreateObj()
 {
-	ArqObj.open("pista.obj");
+	ArqObj.open("../CG/pista.obj");
 	ArqObj.clear();
 	ArqObj << "#teste" << endl;
 	ArqObj << "mtllib Grass_Block.mtl" << endl;
