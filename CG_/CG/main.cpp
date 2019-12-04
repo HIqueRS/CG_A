@@ -139,19 +139,19 @@ void ObjTransform(GLFWwindow * window, glm::mat4 &ModelMatrix,float &scale,bool 
 
 	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_W)) 
 	{
-		ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0.f, 0.f, -0.01f));
+		ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0.f, 0.f, -0.015f));
 	}
 	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_S))
 	{
-		ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0.f, 0.f, +0.01f));
+		ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0.f, 0.f, +0.015f));
 	}
 	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_D))
 	{
-		ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0.01f, 0.f, 0.0f));
+		ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0.015f, 0.f, 0.0f));
 	}
 	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_A))
 	{
-		ModelMatrix = glm::translate(ModelMatrix, glm::vec3(-0.01f, 0.f, 0.0f));
+		ModelMatrix = glm::translate(ModelMatrix, glm::vec3(-0.015f, 0.f, 0.0f));
 	}
 	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_Q))
 	{
@@ -293,7 +293,7 @@ int main() {
 	{
 
 	}*/
-	New_mesh[0] = Reader.Read("pista.obj");
+	New_mesh[0] = Reader.Read("pista.txt");
 	//New_mesh[1] = Reader.Read("Cubo2.txt");//LibertStatue.obj
 	//New_mesh[0] = IniciateMesh(New_mesh[0]);//pista.txt
 

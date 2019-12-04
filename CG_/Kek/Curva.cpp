@@ -172,17 +172,19 @@ vector<GLfloat> Curva::GerarCurvaExterna(vector<GLfloat> Cur)
 
 void Curva::CreateObj()
 {
-	ArqObj.open("../CG/pista.obj");
+	ArqObj.open("../CG/pista.txt");
 	ArqObj.clear();
 	ArqObj << "#teste" << endl;
 	ArqObj << "mtllib Grass_Block.mtl" << endl;
+
+	
 	for (int i = 0; i < CurvaE.size() ; i+=2)
 	{
-		ArqObj << "v " << CurvaI[i] << " " << "1.0" << " " << CurvaI[i+1] << endl;
+		ArqObj << "v " << CurvaI[i] << " " << 1 << " " << CurvaI[i+1] << endl;
 	}
 	for (int i = 0; i < CurvaE.size() ; i+=2)
 	{
-		ArqObj << "v " << CurvaE[i] << " " << "1.0" << " " << CurvaE[i+1] << endl;
+		ArqObj << "v " << CurvaE[i] << " " << 1 << " " << CurvaE[i+1] << endl;
 	}
 	ArqObj << "g group" << endl;
 	ArqObj << "usemtl Grass_Block_TEX" << endl;
